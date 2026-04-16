@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"sort\\\\|khmshdon\\\\|shdon\\\\|purchase\\\\|sold\" /c/Working/dxinvoice/assets/js/*.js)",
+      "WebFetch(domain:main--5sinvoice.netlify.app)"
+    ]
+  }
+}
