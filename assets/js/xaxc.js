@@ -1,6 +1,10 @@
 async function fetchAndRenderSVG() {
     try {
-        const response = await fetch('https://hoadondientu.gdt.gov.vn:30000/captcha');
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const captchaUrl = isLocal
+            ? 'https://hoadondientu.gdt.gov.vn:30000/captcha'
+            : '/.netlify/functions/captcha';
+        const response = await fetch(captchaUrl);
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
         }
