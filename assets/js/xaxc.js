@@ -1,6 +1,8 @@
 async function fetchAndRenderSVG() {
     try {
-        const response = await fetch('/.netlify/functions/captcha');
+        const response = await fetch('https://hoadondientu.gdt.gov.vn/api/captcha', {
+            credentials: 'include'
+        });
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
         }
