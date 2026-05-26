@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(grep -n \"sort\\\\|khmshdon\\\\|shdon\\\\|purchase\\\\|sold\" /c/Working/dxinvoice/assets/js/*.js)",
-      "WebFetch(domain:main--5sinvoice.netlify.app)"
+      "WebFetch(domain:main--5sinvoice.netlify.app)",
+      "Bash(netlify *)",
+      "PowerShell(netlify *)",
+      "PowerShell(npm install *)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:8888/.netlify/functions/captcha\" -UseBasicParsing | Select-Object StatusCode, @{N='Body';E={$_.Content.Substring\\(0,[Math]::Min\\(200,$_.Content.Length\\)\\)}})",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:8888/.netlify/functions/captcha\" -UseBasicParsing -TimeoutSec 15; Write-Output \"Status: $\\($r.StatusCode\\)\"; Write-Output \"Body: $\\($r.Content.Substring\\(0,[Math]::Min\\(300,$r.Content.Length\\)\\)\\)\" } catch { Write-Output \"Error: $_\" })"
     ]
   }
 }
