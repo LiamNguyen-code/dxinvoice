@@ -1,18 +1,32 @@
+const https = require('https');
+
+const agent = new https.Agent({ rejectUnauthorized: false });
+
 exports.handler = async function (event, context) {
-    const response = await fetch('https://hoadondientu.gdt.gov.vn:30000/captcha');
-
-    if (!response.ok) {
-        return {
-            statusCode: response.status,
-            body: JSON.stringify({ error: 'Failed to fetch captcha' })
+    return new Promise((resolve) => {
+        const options = {
+            hostname: 'hoadondientu.gdt.gov.vn',
+            port: 30000,
+            path: '/captcha',
+            method: 'GET',
+            agent: agent
         };
-    }
 
-    const data = await response.json();
-
-    return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    };
+        https.request(options, (res) => {
+            let body = '';
+            res.on('data', (chunk) => body += chunk);
+            res.on('end', () => {
+                resolve({
+                    statusCode: res.statusCode,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: body
+                });
+            });
+        }).on('error', (err) => {
+            resolve({
+                statusCode: 502,
+                body: JSON.stringify({ error: err.message })
+            });
+        }).end();
+    });
 };
