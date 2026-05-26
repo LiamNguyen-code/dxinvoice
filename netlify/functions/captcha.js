@@ -1,18 +1,8 @@
 const https = require('https');
 
-const agent = new https.Agent({ rejectUnauthorized: false });
-
 exports.handler = async function (event, context) {
     return new Promise((resolve) => {
-        const options = {
-            hostname: 'hoadondientu.gdt.gov.vn',
-            port: 30000,
-            path: '/captcha',
-            method: 'GET',
-            agent: agent
-        };
-
-        https.request(options, (res) => {
+        https.get('https://hoadondientu.gdt.gov.vn/api/captcha', (res) => {
             let body = '';
             res.on('data', (chunk) => body += chunk);
             res.on('end', () => {
@@ -27,6 +17,6 @@ exports.handler = async function (event, context) {
                 statusCode: 502,
                 body: JSON.stringify({ error: err.message })
             });
-        }).end();
+        });
     });
 };
